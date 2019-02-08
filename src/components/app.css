@@ -1,0 +1,8 @@
+.content{
+    overflow-x: scroll;
+    flex-wrap: nowrap;
+}
+
+.create-board{
+    width: 100%;
+}

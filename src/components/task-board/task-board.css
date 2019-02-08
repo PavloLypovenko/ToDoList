@@ -1,0 +1,13 @@
+.task-board{
+    margin-right: 1vw;
+}
+
+.title-board{
+    display: flex;
+    justify-content: center;
+}
+
+.task-list{
+    overflow-y: scroll;
+    height: 65vh;
+}

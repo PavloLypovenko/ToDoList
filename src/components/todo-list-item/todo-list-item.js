@@ -33,7 +33,7 @@ export default class TodoListItem extends React.Component {
 
     render(){
         const { done , important } = this.state
-        const { label} = this.props
+        const { label, onDelete} = this.props
 
         let classNames = 'todo-list-item'
 
@@ -60,7 +60,8 @@ export default class TodoListItem extends React.Component {
                 </button>
     
                 <button type="button" 
-                    className="btn btn-outline-danger btn-sm">
+                    className="btn btn-outline-danger btn-sm"
+                    onClick={onDelete}>
                     <i className="fa fa-trash-o"/>    
                 </button>
             </span>
