@@ -29,6 +29,7 @@ const App = () => {
         <div>
             <AppHeader/>
             <Search/>
+            <h1></h1>
             <ItemStatusFilter/>
             <TodoList todos={todoData}/>
         </div>
