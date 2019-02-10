@@ -13,17 +13,23 @@ export default class App extends Component {
 
         this.count = 1
         this.state = {
-            idBoards: [{
-                id: 0,
-                titleBoard: ''
-            }]
+            title: '',
+            idBoards: [
+                {
+                    id: 0,
+                    titleBoard: 'One',
+                    todoData : []
+                }
+            ]
         }
 
     }
 
     handlerClick(){
         const boards = {
-            id: this.count++
+            id: this.count++,
+            titleBoard: this.state.title,
+            todoData: []
         }
 
         this.setState( ( { idBoards } ) => {
@@ -34,7 +40,7 @@ export default class App extends Component {
 
             return{
                 idBoards: newArray,
-                titleBoard: this.state.titleBoard
+                title: ''
             }
         })
 
@@ -44,7 +50,7 @@ export default class App extends Component {
         const { value } = e.currentTarget
 
         this.setState( {
-            titleBoard: [value]
+            title: [value]
         })
 
     }
@@ -52,11 +58,13 @@ export default class App extends Component {
 
     render() {
     
-        const { idBoards } = this.state
-        const boards = idBoards.map(( {id} ) => {
+        const { idBoards, title } = this.state
+
+        const boards = idBoards.map(( item ) => {
             return(
                 <div className="col-4">
-                    <TaskBoard title={this.state.titleBoard}/>
+                    <TaskBoard title={item.titleBoard}
+                        todoData={item.todoData}/>
                 </div>
             )
         })
@@ -76,6 +84,7 @@ export default class App extends Component {
                             className="form-control" 
                             placeholder="Please write name of boards" 
                             aria-label="Recipient's username" aria-describedby="button-addon2"
+                            value={title}
                             onChange={this.handlerTitleChange}/>
 
                         <div className="input-group-append">

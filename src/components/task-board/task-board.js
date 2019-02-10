@@ -13,23 +13,7 @@ export default class TaskBoard extends React.Component {
         this.addTask = this.addTask.bind(this)
 
         this.state = {
-            todoData : [
-                {
-                    label: 'Drink coffe',
-                    important: false,
-                    id: 1
-                },
-                {
-                    label: 'Make Awesome app',
-                    important: true,
-                    id: 2
-                },
-                {
-                    label: 'Have a lanch',
-                    important: false,
-                    id: 3
-                }
-            ]
+            todoData: this.props.todoData
         }
     }
 
