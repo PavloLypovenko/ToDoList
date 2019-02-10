@@ -15,10 +15,14 @@ export default class TaskBoard extends React.Component {
         this.onDone = this.onDone.bind(this)
         this.onImportant = this.onImportant.bind(this)
         this.toggleProp = this.toggleProp.bind(this)
+        this.filter = this.filter.bind(this)
+        this.onFilterChange = this.onFilterChange.bind(this)
+
         
 
         this.state = {
-            todoData: this.props.todoData
+            todoData: this.props.todoData,
+            filter: 'all'
         }
     }
 
@@ -100,13 +104,37 @@ export default class TaskBoard extends React.Component {
         console.log("OnImportant", id)
     }
 
+    filter( items, filter ){
+        switch (filter) {
+            case 'all':
+                return items
+                
+
+            case 'active':
+                return items.filter( ( item ) => !item.done )
+                
+
+            case 'done':
+                return items.filter( ( item ) => item.done )
+                
+        
+            default:
+                return items
+        }
+    }
+
+    onFilterChange(filter){
+        this.setState({ filter  })
+    }
+
     render(){
 
-        const { todoData } = this.state
+        const { todoData, filter } = this.state
         const { title } = this.props
         const doneCount = todoData
                             .filter( ( el ) => el.done).length 
         const todoCount = todoData.length - doneCount
+        const visibleItems = this.filter(todoData, filter )
 
         return(
             <div className="task-board">
@@ -119,11 +147,12 @@ export default class TaskBoard extends React.Component {
                     <span>{`Todo ${todoCount}, Done ${doneCount}`}</span>
                 </div>
 
-                <StatusFilter/>
+                <StatusFilter  filter = { filter }
+                    onFilterChange = { this.onFilterChange }/>
 
                 <div className="task-list">
 
-                    <TodoList todos={todoData}
+                    <TodoList todos={visibleItems}
                         onDelete={this.deleteItem}
                         onDone={this.onDone}
                         onImportant={this.onImportant}/>
