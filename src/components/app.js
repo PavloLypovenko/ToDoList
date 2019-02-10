@@ -10,6 +10,7 @@ export default class App extends Component {
 
         this.handlerClick = this.handlerClick.bind(this)
         this.handlerTitleChange = this.handlerTitleChange.bind(this)
+       
 
         this.count = 1
         this.state = {
@@ -18,7 +19,12 @@ export default class App extends Component {
                 {
                     id: 0,
                     titleBoard: 'One',
-                    todoData : []
+                    todoData : [{
+                        id: 1,
+                        label: 'Coffe',
+                        important: false,
+                        done: false
+                    }]
                 }
             ]
         }
@@ -29,7 +35,8 @@ export default class App extends Component {
         const boards = {
             id: this.count++,
             titleBoard: this.state.title,
-            todoData: []
+            todoData: [
+            ]
         }
 
         this.setState( ( { idBoards } ) => {
@@ -45,6 +52,7 @@ export default class App extends Component {
         })
 
     }
+
 
     handlerTitleChange(e){
         const { value } = e.currentTarget
@@ -62,9 +70,10 @@ export default class App extends Component {
 
         const boards = idBoards.map(( item ) => {
             return(
-                <div className="col-4">
+                <div key={item.id}  className="col-4">
                     <TaskBoard title={item.titleBoard}
-                        todoData={item.todoData}/>
+                        todoData={item.todoData}
+                        />
                 </div>
             )
         })

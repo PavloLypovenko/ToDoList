@@ -6,3 +6,8 @@
     font-weight: bold;
     color: steelblue;
 }
+
+.btn{
+    display: flex;
+    justify-content: end;
+}

@@ -4,36 +4,15 @@ import './todo-list-item.css'
 export default class TodoListItem extends React.Component {
 
     constructor(props){
-        super(props)
-
-        this.handlerClick = this.handlerClick.bind(this)
-        this.handlerClickImportant = this.handlerClickImportant.bind(this)
+        super(props) 
 
         this.state = {
-            done: false,
-            important: false
         }
     }
 
-    handlerClick(){
-        this.setState( ( { done } ) => {
-            return{
-                done: !done
-            }
-        })
-    }
-
-    handlerClickImportant(){
-        this.setState( ( { important } ) => {
-            return{
-                important: !important
-            }
-        } )
-    }
-
     render(){
-        const { done , important } = this.state
-        const { label, onDelete} = this.props
+        const { label, onDelete, onDone, onImportant,
+            done , important} = this.props
 
         let classNames = 'todo-list-item'
 
@@ -47,23 +26,31 @@ export default class TodoListItem extends React.Component {
 
         return (
             <span className={classNames}>
-                <span 
-                    className="todo-list-item-label"
-                    onClick={this.handlerClick}>
-                    {label}
-                </span>
-                
-                <button type="button" 
-                    className="btn btn-outline-success btn-sm"
-                    onClick={this.handlerClickImportant}>
-                        <i className="fa fa-exclamation"/>    
-                </button>
-    
-                <button type="button" 
-                    className="btn btn-outline-danger btn-sm"
-                    onClick={onDelete}>
-                    <i className="fa fa-trash-o"/>    
-                </button>
+
+                <div className="input-group row">
+                    <div className="col-8">
+                        <span 
+                            className="todo-list-item-label"
+                            onClick={ onDone }>
+                            {label}
+                        </span>
+                    </div>
+                    
+                    <div className="col-2">
+                        <button type="button" 
+                            className="btn btn-outline-success btn-sm"
+                            onClick={ onImportant }>
+                                <i className="fa fa-exclamation"/>    
+                        </button>
+                    </div>
+                    <div className="col-2">
+                        <button type="button" 
+                            className="btn btn-outline-danger btn-sm"
+                            onClick={ onDelete }>
+                            <i className="fa fa-trash-o"/>    
+                        </button>
+                    </div>
+                </div>
             </span>
         )
 

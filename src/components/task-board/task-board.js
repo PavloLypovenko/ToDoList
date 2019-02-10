@@ -11,6 +11,11 @@ export default class TaskBoard extends React.Component {
 
         this.deleteItem = this.deleteItem.bind(this)
         this.addTask = this.addTask.bind(this)
+        this.createTask = this.createTask.bind(this)
+        this.onDone = this.onDone.bind(this)
+        this.onImportant = this.onImportant.bind(this)
+        this.toggleProp = this.toggleProp.bind(this)
+        
 
         this.state = {
             todoData: this.props.todoData
@@ -36,13 +41,18 @@ export default class TaskBoard extends React.Component {
         } )
     }
 
-    addTask(text){
-        
-        const task = {
+    createTask(text){
+        return{
             label: text,
             important: false,
-            id: this.maxId++
+            id: this.maxId++,
+            done: false
         }
+    }
+
+    addTask(text){
+        
+        const task = this.createTask(text)
 
         this.setState( ({ todoData }) => {
             const newArray = [
@@ -56,23 +66,72 @@ export default class TaskBoard extends React.Component {
         } )
     }
 
+    toggleProp(arr, id, propName){
+        const idx = arr.findIndex( (el) => {
+            return el.id === id
+        } )
+
+        const oldItem = arr[idx]
+        const newitem = { ...oldItem, [propName]: !oldItem[propName] }
+
+        return [
+            ...arr.slice(0, idx),
+            newitem,
+            ...arr.slice(idx + 1)
+        ]
+
+    }
+
+    onDone( id ){
+        this.setState( ({ todoData }) => {
+            return{
+                todoData: this.toggleProp(todoData, id, 'done')
+            }
+        } )
+        console.log("OnDone", id)
+    }
+
+    onImportant( id ){
+        this.setState( ({ todoData }) => {
+            return{
+                todoData: this.toggleProp(todoData, id, 'important')
+            }
+        } )
+        console.log("OnImportant", id)
+    }
 
     render(){
 
         const { todoData } = this.state
         const { title } = this.props
+        const doneCount = todoData
+                            .filter( ( el ) => el.done).length 
+        const todoCount = todoData.length - doneCount
 
         return(
             <div className="task-board">
+               
                 <div className="title-board">
                     <h3>{title}</h3>
                 </div>
-                <StatusFilter/>
-                <div className="task-list">
-                    <TodoList todos={todoData}
-                        onDelete={this.deleteItem}/>
-                    <AddTaskForm onAddTask={this.addTask}/>
+                
+                <div className="title-board">
+                    <span>{`Todo ${todoCount}, Done ${doneCount}`}</span>
                 </div>
+
+                <StatusFilter/>
+
+                <div className="task-list">
+
+                    <TodoList todos={todoData}
+                        onDelete={this.deleteItem}
+                        onDone={this.onDone}
+                        onImportant={this.onImportant}/>
+
+                    <AddTaskForm onAddTask={this.addTask}/>
+
+                </div>
+
             </div>
         )
     }

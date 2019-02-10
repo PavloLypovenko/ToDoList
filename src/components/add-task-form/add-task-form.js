@@ -5,10 +5,20 @@ export default class AddTaskForm extends React.Component{
         super(props)
 
         this.onChange = this.onChange.bind(this)
+        this.handlerClick = this.handlerClick.bind(this)
 
         this.state = {
             text: ''
         }
+    }
+
+    handlerClick(){
+        this.props.onAddTask( this.state.text )
+        this.setState( () => {
+            return{
+                text: '' 
+            }
+        } )
     }
 
     onChange(e){
@@ -20,7 +30,7 @@ export default class AddTaskForm extends React.Component{
 
 
     render(){
-        const { onAddTask } = this.props
+        
         const { text } = this.state
         return(
             <div className="input-group mb-4">
@@ -28,12 +38,13 @@ export default class AddTaskForm extends React.Component{
                     placeholder="Write your new task" 
                     aria-label="Recipient's username" 
                     aria-describedby="button-addon2"
+                    value={text}
                     onChange={this.onChange}/>
                 <div className="input-group-append">
                     <button className="btn btn-outline-secondary"
                         type="button" 
                         id="button-addon2"
-                        onClick={ () => { onAddTask( text ) } }>
+                        onClick={ this.handlerClick }>
                             Add
                     </button>
                 </div>
